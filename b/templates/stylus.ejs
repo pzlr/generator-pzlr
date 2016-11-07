@@ -1,0 +1,8 @@
+<% if (disclaimer) { -%>
+<%- disclaimer -%>
+
+<% } -%>
+@import "<%- blockName %>.interface.styl"
+
+.<%- blockName %>
+	extends($<%- blockName.camelize(false) %>)

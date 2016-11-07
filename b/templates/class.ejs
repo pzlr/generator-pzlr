@@ -1,0 +1,23 @@
+'use strict';
+<% if (disclaimer) { -%>
+
+<%- disclaimer -%>
+<% } -%>
+
+<% if (parent) { -%>
+import <%- parent.camelize(false) %> from '../<%- parent %>';
+<% } -%>
+<% if (/^b/.test(blockName)) { -%>
+import * as templates from './<%- blockName %>.ss';
+<% } -%>
+<% if (/^[pb]/.test(blockName)) { -%>
+import { component } from '../../core/block';
+<% } -%>
+
+<% if (/^[pb]/.test(blockName)) { -%>
+@component({<%- /^b/.test(blockName) ? 'templates' : '' %>})
+<% } -%>
+export default class <%- blockName.camelize(false) -%>
+<% if (parent) { -%>
+ extends <%- parent.camelize(false) -%>
+<% } -%> {}

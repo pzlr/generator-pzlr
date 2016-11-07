@@ -1,0 +1,14 @@
+<% if (disclaimer) { -%>
+<%- disclaimer -%>
+
+<% } -%>
+package('<%- blockName -%>')<% ''-%>
+<% if (parent) { -%>
+
+	.extends('<%- parent %>')<% ''-%>
+<% } -%>
+<% if (dependencies && dependencies.length) { -%>
+
+	.dependencies('<%- dependencies.join("', '") -%>')<% ''-%>
+<% } -%>
+;
