@@ -2,7 +2,9 @@
 <%- disclaimer -%>
 
 <% } -%>
+<% if (blockName.charAt(0) !== 'g') { -%>
 @import "<%- blockName %>.interface.styl"
 
 .<%- blockName %>
 	extends($<%- blockName.camelize(false) %>)
+<% } -%>

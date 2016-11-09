@@ -1,0 +1,8 @@
+{
+  "generator-pzlr": {
+    "paths": {
+      "blocks": "./src/blocks",
+      "disclaimer": null
+    }
+  }
+}

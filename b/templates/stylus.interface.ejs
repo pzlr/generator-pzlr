@@ -6,16 +6,7 @@
 @import "../<%- parent %>/<%- parent %>.interface.styl"
 
 <% } -%>
-$<%- blockName.camelize(false) %> = ()
-declare($<%- blockName.camelize(false) %>, <%- blockName %>)
-
-if file-exists("<%- blockName %>_*.styl")
-	@import "<%- blockName %>_*.styl"
-
-<%- blockName %>($p)
-	$p = assign({}, $p)
-
-	+cache($p)
+<%- blockName -%>
 <% if (parent) { -%>
-		extends($<%- parent.camelize(false) %>, $p)
+ extends <%- parent %>
 <% } -%>

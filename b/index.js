@@ -4,6 +4,8 @@ require('sugar');
 
 const
 	yeoman = require('yeoman-generator'),
+	core = require('@pzlr/build-core'),
+	projectType = core.config.projectType || 'ts',
 	Base = require('../base/Base');
 
 module.exports = yeoman.Base.extend(Object.merge(Base, {
@@ -15,6 +17,12 @@ module.exports = yeoman.Base.extend(Object.merge(Base, {
 			optional: true,
 			desc: 'Name of the created block',
 			defaults: ''
+		});
+
+		this.argument('message', {
+			type: String,
+			desc: 'Message text for user',
+			defaults: 'Enter the name of the created block:'
 		});
 
 		this.option('parent', {
@@ -30,13 +38,15 @@ module.exports = yeoman.Base.extend(Object.merge(Base, {
 				return;
 			}
 
-			if (!this._validateBlockName(this.blockName)) {
+			if (!core.validators.blockName(this.blockName)) {
 				this.log(`Invalid block name "${this.blockName}" (should match pattern "^[gibp]-[a-z0-9-]*$")`);
 				this.blockName = false;
+				this.message = 'Enter the right name of the created block:';
 
 			} else if (this.blocksList.indexOf(this.blockName) !== -1) {
-				this.log(`Block ${this.blockName} is already exists`);
+				this.log(`Block ${this.blockName} c`);
 				this.blockName = false;
+				this.message = 'Enter the new name of the created block:';
 			}
 		},
 
@@ -54,6 +64,7 @@ module.exports = yeoman.Base.extend(Object.merge(Base, {
 	prompting() {
 		const
 			done = this.async(),
+			messageText = this.message,
 			empty = {
 				name: '--none---',
 				value: null,
@@ -63,19 +74,23 @@ module.exports = yeoman.Base.extend(Object.merge(Base, {
 		this.prompt([
 			{
 				name: 'blockName',
-				message: 'Enter the name of the created block:',
-				validate: (val) =>
-					this._validateBlockName(val) ? true : `Invalid block name "${val}" (should match pattern "^[gibp]-[a-z0-9-]*$")`,
+				message: messageText,
+				validate: (val) => {
+					let approved;
+					approved = this.blocksList.indexOf(val) !== -1 ? `Block "${val}" is already exists` : true;
+					if (!core.validators.blockName(val)) approved = `Invalid block name "${val}" (should match pattern "^[gibp]-[a-z0-9-]*$")`;
+					return approved;
+				},
 
 				filter: (val) => val && val.trim(),
-				when: () => !this.blockName
+				when: () => !this.blockName,
 			},
 
 			{
 				name: 'parent',
 				message: 'Select the parent block',
 				type: 'list',
-				choices: this.blocksList.concat([empty]),
+				choices: this.blocksList.filter((val) => val.charAt(0) !== 'g').concat([empty]),
 				default: (answers) => {
 					const
 						blockName = this.blockName || answers.blockName;
@@ -113,40 +128,56 @@ module.exports = yeoman.Base.extend(Object.merge(Base, {
 
 	writing: {
 		writing() {
-		this.fs.copyTpl(
-			this.templatePath('index.ejs'),
-			this.destinationPath('index.js'),
-			this
-		);
-
-		this.fs.copyTpl(
-			this.templatePath('class.ejs'),
-			this.destinationPath(`${this.blockName}.js`),
-			this
-		);
-
-		this.fs.copyTpl(
-			this.templatePath('template.ejs'),
-			this.destinationPath(
-				this.blockName + (this.blockName.charAt(0) === 'p' ? '.ess' : '.ss')
-			),
-			this
-		);
-
-		this.fs.copyTpl(
-			this.templatePath('stylus.interface.ejs'),
-			this.destinationPath(`${this.blockName}.interface.styl`),
-			this
-		);
-
-		if (this.blockName.charAt(0) !== 'i') {
 			this.fs.copyTpl(
-				this.templatePath('stylus.ejs'),
-				this.destinationPath(`${this.blockName}.styl`),
+				this.templatePath('index.ejs'),
+				this.destinationPath('index.js'),
 				this
 			);
-		}
-	}
 
+			if (this.blockName.charAt(0) !== 'i') {
+				this.fs.copyTpl(
+					this.templatePath('stylus.ejs'),
+					this.destinationPath(`${this.blockName}.styl`),
+					this
+				);
+			}
+
+			if (this.blockName.charAt(0) !== 'g') {
+				if (projectType === 'js') {
+					this.fs.copyTpl(
+						this.templatePath('class-js.ejs'),
+						this.destinationPath(`${this.blockName}.js`),
+						this
+					);
+
+				} else if (projectType === 'ts') {
+					this.fs.copyTpl(
+						this.templatePath('class-ts.ejs'),
+						this.destinationPath(`${this.blockName}.ts`),
+						this
+					);
+
+					this.fs.copyTpl(
+						this.templatePath('ss-declaration.ejs'),
+						this.destinationPath(`${this.blockName}.ss.ts`),
+						this
+					);
+				}
+
+				this.fs.copyTpl(
+					this.templatePath('template.ejs'),
+					this.destinationPath(
+						this.blockName + (this.blockName.charAt(0) === 'p' ? '.ess' : '.ss')
+					),
+					this
+				);
+
+				this.fs.copyTpl(
+					this.templatePath('stylus.interface.ejs'),
+					this.destinationPath(`${this.blockName}.interface.styl`),
+					this
+				);
+			}
+		}
 	}
 }, true));

@@ -1,19 +1,19 @@
-'use strict';
 <% if (disclaimer) { -%>
 
 <%- disclaimer -%>
 <% } -%>
-
 <% if (parent) { -%>
-import <%- parent.camelize(false) %> from '../<%- parent %>';
-<% } -%>
-<% if (/^b/.test(blockName)) { -%>
-import * as templates from './<%- blockName %>.ss';
+import <%- parent.camelize(false) %> from '../<%- parent %>/<%- parent %>';
 <% } -%>
 <% if (/^[pb]/.test(blockName)) { -%>
-import { component } from '../../core/block';
+import { component } from '../../core/view';
 <% } -%>
+<% if (/^b/.test(blockName)) { -%>
+import templates = require('./<%- blockName %>.ss');
+<% } -%>
+<% if (/^[pb]/.test(blockName) || parent) { -%>
 
+<% } -%>
 <% if (/^[pb]/.test(blockName)) { -%>
 @component({<%- /^b/.test(blockName) ? 'templates' : '' %>})
 <% } -%>

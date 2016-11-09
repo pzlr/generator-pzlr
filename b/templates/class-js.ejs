@@ -1,0 +1,23 @@
+'use strict';
+<% if (disclaimer) { -%>
+
+<%- disclaimer -%>
+<% } -%>
+
+<% if (parent) { -%>
+import <%- parent.camelize(false) %> from '../<%- parent %>/<%- parent %>';
+<% } -%>
+<% if (/^b/.test(blockName)) { -%>
+import * as tpls from './<%- blockName %>.ss';
+<% } -%>
+<% if (/^[pb]/.test(blockName)) { -%>
+import { model } from '../../core/block';
+<% } -%>
+
+<% if (/^[pb]/.test(blockName)) { -%>
+@model(<%- /^b/.test(blockName) ? 'tpls' : '' %>)
+<% } -%>
+export default class <%- blockName.camelize(false) -%>
+<% if (parent) { -%>
+ extends <%- parent.camelize(false) -%>
+<% } -%> {}

@@ -1,7 +1,8 @@
 'use strict';
 
 const
-	yeoman = require('yeoman-generator');
+	yeoman = require('yeoman-generator'),
+	core = require('@pzlr/build-core');
 
 module.exports = yeoman.Base.extend({
 	constructor: function () {

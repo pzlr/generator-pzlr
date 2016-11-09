@@ -1,5 +1,5 @@
 {
-  "name": "generator-puzzle",
+  "name": "generator-pzlr",
   "version": "0.1.0",
   "description": "Custom generator",
   "keywords": [
@@ -20,6 +20,7 @@
     "eslint": "^3.9.1"
   },
   "dependencies": {
+    "@pzlr/build-core": "^0.2.3",
     "async": "^1.5.2",
     "joi": "^8.0.4",
     "sugar": "^1.4.1",
