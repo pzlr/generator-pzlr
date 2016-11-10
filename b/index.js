@@ -143,12 +143,15 @@ module.exports = yeoman.Base.extend(Object.merge(Base, {
 
 	writing: {
 		writing() {
-			this.fs.copyTpl(
-				this.templatePath('index.ejs'),
-				this.destinationPath('index.js'),
-				this
+			this.fs.write(
+				'index.js',
+				new core.declaration({
+					name: this.blockName,
+					parent: this.parent,
+					dependencies: this.dependencies
+				}).toString()
 			);
-			console.log('type:',this.projectType);
+
 			if (this.blockName.charAt(0) !== 'i') {
 				this.fs.copyTpl(
 					this.templatePath('stylus.ejs'),
