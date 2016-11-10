@@ -5,7 +5,6 @@ require('sugar');
 const
 	yeoman = require('yeoman-generator'),
 	core = require('@pzlr/build-core'),
-	projectType = core.config.projectType || 'ts',
 	Base = require('../base/Base');
 
 module.exports = yeoman.Base.extend(Object.merge(Base, {
