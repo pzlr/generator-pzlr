@@ -1,19 +1,16 @@
 'use strict';
 
-require('sugar');
+require('sugar').extend();
 
 const
-	fs = require('fs');
+	fs = require('fs'),
+	core = require('@pzlr/build-core');
 
 module.exports = {
-	_validateBlockName(name) {
-		return /^[gibp]-[a-z0-9-]+$/.test(name);
-	},
-
 	initializing: {
-		loadDisclaimer() {
+		disclaimerLoading() {
 			this.disclaimer = null;
-			const disclaimerPath = this.config.get('paths').disclaimer;
+			const disclaimerPath = core.config.disclaimer;
 
 			if (disclaimerPath) {
 				try {
@@ -25,19 +22,18 @@ module.exports = {
 			}
 		},
 
-		setPath() {
-			this.destinationRoot(this.config.get('paths').blocks);
+		pathSetting() {
+			this.destinationRoot(core.resolve.block());
 		},
 
-		loadBlocksList() {
-			this.blocksList = fs.readdirSync(this.destinationPath()).filter(this._validateBlockName).sort();
+		blocksListLoading() {
+			this.blocksList = fs.readdirSync(this.destinationPath()).filter(core.validators.blockName).sort();
 		}
 	},
 
 	writing: {
-		setPath() {
-			this.destinationRoot(this.blockName);
-			this.log(this.destinationPath());
+		pathsSetting() {
+			this.destinationRoot(core.resolve.block(this.blockName));
 		}
 	}
 };

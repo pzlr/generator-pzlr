@@ -1,14 +1,27 @@
 'use strict';
 
-require('sugar');
-
 const
 	yeoman = require('yeoman-generator'),
 	core = require('@pzlr/build-core'),
+	{config} = core,
 	Base = require('../base/Base');
 
+// внести эту функцию внутрь объекта не получается,
+// пришлось её чистой делать
+function validateBlockName(name, blocksList) {
+	if (!core.validators.blockName(name)) {
+		return `Invalid block name (should match pattern "^[gibp]-[a-z0-9-]+$")`;
+	}
+
+	if (blocksList.includes(name)) {
+		return `Block "${name}" already exists`;
+	}
+
+	return true;
+}
+
 module.exports = yeoman.Base.extend(Object.merge(Base, {
-	constructor: function () {
+	constructor: function () { // eslint-disable-line object-shorthand
 		yeoman.Base.call(this, ...arguments);
 
 		this.argument('blockName', {
@@ -18,85 +31,42 @@ module.exports = yeoman.Base.extend(Object.merge(Base, {
 			defaults: ''
 		});
 
-		this.argument('projectType', {
-			type: String,
-			optional: true,
-			desc: 'Type of project',
-			defaults: core.config.projectType || ''
-		});
-
-		this.argument('message', {
-			type: String,
-			desc: 'Message text for user',
-			defaults: 'Enter the name of the created block:'
-		});
-
-		this.option('parent', {
-			desc: 'Parent block',
-			type: String,
-			alias: 'p'
-		});
+		this.projectType = config.projectType;
 	},
 
 	initializing: {
-		validateName() {
+		blocksNameValidation() {
 			if (!this.blockName) {
 				return;
 			}
 
-			if (!core.validators.blockName(this.blockName)) {
-				this.log(`Invalid block name "${this.blockName}" (should match pattern "^[gibp]-[a-z0-9-]*$")`);
-				this.blockName = false;
-				this.message = 'Enter the right name of the created block:';
+			const validity = validateBlockName(this.blockName, this.blocksList);
 
-			} else if (this.blocksList.indexOf(this.blockName) !== -1) {
-				this.log(`Block ${this.blockName} c`);
-				this.blockName = false;
-				this.message = 'Enter the new name of the created block:';
+			if (validity === true) {
+				return;
 			}
-		},
 
-		validateParent() {
-			const
-				parent = this.options.parent;
-
-			if (parent && (this.blocksList.indexOf(parent) === -1)) {
-				this.log(`Parent block ${parent} is not exists`);
-				this.options.parent = false;
-			}
+			this.log(validity);
+			this.blockName = false;
 		}
 	},
 
 	prompting() {
 		const
 			done = this.async(),
-			messageText = this.message,
 			empty = {
 				name: '--none---',
 				value: null,
 				short: 'none'
-			};
+			},
+
+			parentChoices = this.blocksList.filter((val) => val.charAt(0) !== 'g').concat([empty]);
 
 		this.prompt([
 			{
-				name: 'projectType',
-				message: 'Select type of project (js/ts/static)',
-				type: 'list',
-				choices: ['js', 'ts', 'static'],
-
-				when: () => !this.projectType
-			},
-
-			{
 				name: 'blockName',
-				message: messageText,
-				validate: (val) => {
-					let approved;
-					approved = this.blocksList.indexOf(val) !== -1 ? `Block "${val}" is already exists` : true;
-					if (!core.validators.blockName(val)) approved = `Invalid block name "${val}" (should match pattern "^[gibp]-[a-z0-9-]*$")`;
-					return approved;
-				},
-
+				message: 'Enter a name for the new block:',
+				validate: (val) => validateBlockName(val, this.blocksList),
 				filter: (val) => val && val.trim(),
 				when: () => !this.blockName,
 			},
@@ -105,38 +75,36 @@ module.exports = yeoman.Base.extend(Object.merge(Base, {
 				name: 'parent',
 				message: 'Select the parent block',
 				type: 'list',
-				choices: this.blocksList.filter((val) => val.charAt(0) !== 'g').concat([empty]),
+				choices: parentChoices,
 				default: (answers) => {
 					const
 						blockName = this.blockName || answers.blockName;
 
 					switch (blockName.charAt(0)) {
 						case 'p':
-							return this.blocksList.indexOf('i-page');
+							return parentChoices.indexOf('i-page');
 
 						case 'b':
-							return this.blocksList.indexOf('i-block');
+							return parentChoices.indexOf('i-block');
 
 						case 'g':
-							return this.blocksList.length;
+							return parentChoices.indexOf(empty);
 
 						default:
-							return this.blocksList.indexOf('i-base');
+							return parentChoices.indexOf('i-base');
 					}
-				},
-
-				when: () => !this.parent
+				}
 			},
 
 			{
 				name: 'dependencies',
 				message: 'Check dependencies of the block',
 				type: 'checkbox',
-				choices: this.blocksList.filter((val) => val.charAt(0) !== 'i')
+				choices: this.blocksList.filter((val) => !/^i/.test(val))
 			}
 
 		], (answers) => {
-			Object.assign(this, answers);
+			Object.merge(this, answers);
 			done();
 		});
 	},
@@ -198,4 +166,4 @@ module.exports = yeoman.Base.extend(Object.merge(Base, {
 			}
 		}
 	}
-}, true));
+}, {deep: true, descriptor: true}));
