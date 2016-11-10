@@ -19,6 +19,13 @@ module.exports = yeoman.Base.extend(Object.merge(Base, {
 			defaults: ''
 		});
 
+		this.argument('projectType', {
+			type: String,
+			optional: true,
+			desc: 'Type of project',
+			defaults: core.config.projectType || ''
+		});
+
 		this.argument('message', {
 			type: String,
 			desc: 'Message text for user',
@@ -72,6 +79,15 @@ module.exports = yeoman.Base.extend(Object.merge(Base, {
 			};
 
 		this.prompt([
+			{
+				name: 'projectType',
+				message: 'Select type of project (js/ts/static)',
+				type: 'list',
+				choices: ['js', 'ts', 'static'],
+
+				when: () => !this.projectType
+			},
+
 			{
 				name: 'blockName',
 				message: messageText,
@@ -133,7 +149,7 @@ module.exports = yeoman.Base.extend(Object.merge(Base, {
 				this.destinationPath('index.js'),
 				this
 			);
-
+			console.log('type:',this.projectType);
 			if (this.blockName.charAt(0) !== 'i') {
 				this.fs.copyTpl(
 					this.templatePath('stylus.ejs'),
@@ -143,14 +159,14 @@ module.exports = yeoman.Base.extend(Object.merge(Base, {
 			}
 
 			if (this.blockName.charAt(0) !== 'g') {
-				if (projectType === 'js') {
+				if (this.projectType === 'js') {
 					this.fs.copyTpl(
 						this.templatePath('class-js.ejs'),
 						this.destinationPath(`${this.blockName}.js`),
 						this
 					);
 
-				} else if (projectType === 'ts') {
+				} else if (this.projectType === 'ts') {
 					this.fs.copyTpl(
 						this.templatePath('class-ts.ejs'),
 						this.destinationPath(`${this.blockName}.ts`),
