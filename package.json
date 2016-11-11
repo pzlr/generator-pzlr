@@ -20,7 +20,7 @@
     "eslint": "^3.9.1"
   },
   "dependencies": {
-    "@pzlr/build-core": "^0.2.3",
+    "@pzlr/build-core": "^0.2.4",
     "async": "^1.5.2",
     "joi": "^8.0.4",
     "sugar": "^2.0.2",
