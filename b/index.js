@@ -60,7 +60,7 @@ module.exports = yeoman.Base.extend(Object.merge(Base, {
 				short: 'none'
 			},
 
-			parentChoices = this.blocksList.filter((val) => val.charAt(0) !== 'g').concat([empty]);
+			parentChoices = this.blocksList.filter((val) => !/^g/.test(val)).concat([empty]);
 
 		this.prompt([
 			{
