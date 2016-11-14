@@ -1,63 +1,66 @@
-Pzlr Generator
-==============
+# generator-pzlr
 
-Generate blocks.
+Yeoman generator for pzlr.
 
 ## Install
 
 You can use `yarn` or `npm` to install this generator:
 
 ### yarn
+
 ```
 yarn add generator-pzlr --dev
 ```
 
 ### npm
+
 ```
 npm install generator-pzlr --save-dev
 ```
 
-Done, you are awesome!
-
-## Use
+## Using
 
 ### Create blocks
 
 You can create a block in two ways:
 
-* no params
+- no params
 
-```
-yo pzlr:b
-```
+  ```
+  yo pzlr:b
+  ```
 
-* with name*
+- with name
 
-```
-yo pzlr:b b-name
-```
+  ```
+  yo pzlr:b b-name
+  ```
 
-*all the names should match pattern `"^[gibp]-[a-z0-9-]+$"`
+> **Note**: block names should match pattern `"^[gibp]-[a-z0-9-]+$"`
 
 #### Example
 
-* Good names:
+- Good names:
 
-```
-yo pzlr:b g-name
-yo pzlr:b i-name
-yo pzlr:b b-name
-yo pzlr:b p-name
-```
+  ```
+  yo pzlr:b g-name
+  yo pzlr:b i-name
+  yo pzlr:b b-name
+  yo pzlr:b p-name
+  ```
 
-* Bad names:
+- Bad names:
 
-```
-yo pzlr:b s-name
-yo pzlr:b name
-```
-
-G - global, I - interface, B - block, P - page
+  ```
+  yo pzlr:b s-name
+  yo pzlr:b name
+  ```
+  
+#### Block types
+  - `g`: global
+  - `i`: interface
+  - `b`: block
+  - `p`: page
 
 ## License
 
