@@ -5,14 +5,14 @@ Generate pages, interfaces, blocks and global elements.
 
 ## Install
 
-You can use `yarn` or `npm` for install this generator:
+You can use `yarn` or `npm` to install this generator:
 
-* for use yarn
+### yarn
 ```
 yarn add generator-pzlr
 ```
 
-* for use npm
+### npm
 ```
 npm install generator-pzlr
 ```
@@ -21,7 +21,7 @@ Done, you are awesome!
 
 ## Use
 
-### First start
+### Quick start
 
 You can change default path to the block directiory:
 
@@ -71,12 +71,12 @@ G - global, I - interfaces, B - block, P - page
 
 Like a install, `yarn` or `npm` can remove this generator.
 
-* for use yarn
+### yarn
 ```
 yarn remove generator-pzlr
 ```
 
-* for use npm
+### npm
 ```
 npm uninstall generator-pzlr
 ```
