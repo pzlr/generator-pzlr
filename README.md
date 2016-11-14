@@ -9,12 +9,12 @@ You can use `yarn` or `npm` to install this generator:
 
 ### yarn
 ```
-yarn add generator-pzlr
+yarn add generator-pzlr --dev
 ```
 
 ### npm
 ```
-npm install generator-pzlr
+npm install generator-pzlr --save-dev
 ```
 
 Done, you are awesome!
