@@ -21,19 +21,11 @@ Done, you are awesome!
 
 ## Use
 
-### Quick start
-
-You can change default path to the block directiory:
-
-```
-yo pzlr
-```
-
 ### Create blocks
 
-You can create new block for two ways:
+You can create a block in two ways:
 
-* without anything params
+* no params
 
 ```
 yo pzlr:b
@@ -65,18 +57,8 @@ yo pzlr:b s-name
 yo pzlr:b name
 ```
 
-G - global, I - interfaces, B - block, P - page
+G - global, I - interface, B - block, P - page
 
-## Uninstal
+## License
 
-Like a install, `yarn` or `npm` can remove this generator.
-
-### yarn
-```
-yarn remove generator-pzlr
-```
-
-### npm
-```
-npm uninstall generator-pzlr
-```
+[MIT](https://github.com/pzlr/generator-pzlr/blob/master/LICENSE)
