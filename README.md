@@ -37,7 +37,7 @@ yo pzlr:b
 yo pzlr:b b-name
 ```
 
-*P.S. All your names should match pattern `"^[gibp]-[a-z0-9-]+$"`
+*all the names should match pattern `"^[gibp]-[a-z0-9-]+$"`
 
 #### Example
 
