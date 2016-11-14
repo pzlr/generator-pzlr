@@ -1,7 +1,7 @@
 Pzlr Generator
 ==============
 
-Generate pages, interfaces, blocks and global elements.
+Generate blocks.
 
 ## Install
 
