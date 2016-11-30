@@ -1,6 +1,6 @@
 {
   "name": "generator-pzlr",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Custom generator",
   "keywords": [
     "yeoman-generator"
@@ -11,7 +11,9 @@
   },
   "files": [
     "app",
-    "b"
+    "b",
+    "base",
+    "yarn.lock"
   ],
   "author": "trikadin@mail.ru",
   "license": "MIT",
