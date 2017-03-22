@@ -8,14 +8,14 @@ import <%- parent.camelize(false) %> from '../<%- parent %>/<%- parent %>';
 <% if (/^[pb]/.test(blockName)) { -%>
 import { component } from '../../core/view';
 <% } -%>
-<% if (/^b/.test(blockName)) { -%>
+<% if (/^[pb]/.test(blockName)) { -%>
 import templates = require('./<%- blockName %>.ss');
 <% } -%>
 <% if (/^[pb]/.test(blockName) || parent) { -%>
 
 <% } -%>
 <% if (/^[pb]/.test(blockName)) { -%>
-@component({<%- /^b/.test(blockName) ? 'templates' : '' %>})
+@component({<%- /^[pb]/.test(blockName) ? 'templates' : '' %>})
 <% } -%>
 export default class <%- blockName.camelize(false) -%>
 <% if (parent) { -%>

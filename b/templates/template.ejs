@@ -6,9 +6,13 @@
 
 <% if (parent) { -%>
 - include '../<%- parent %>/' as placeholder
+<% if (/^p/.test(blockName) && projectType === 'ts') { -%>
+
+- placeholder static(params)<% if (parent) { %> extends ['<%- parent %>'].static<% } %>
+<% } -%>
 
 <% } -%>
-<% if (parent) { -%>
+<% if (/^[^i]/.test(blockName)) { -%>
 - template index(params)<% if (parent) { %> extends ['<%- parent %>'].index<% } %>
 <% } else { -%>
 - placeholder index(params)<% if (parent) { %> extends ['<%- parent %>'].index<% } %>

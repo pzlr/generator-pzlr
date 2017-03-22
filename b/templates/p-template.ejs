@@ -1,0 +1,9 @@
+- namespace [%fileName%]
+<% if (disclaimer) { -%>
+
+<%- disclaimer -%>
+<% } -%>
+
+- include '../<%- parent %>/' as placeholder
+
+- template index(params) extends ['<%- parent %>'].static

@@ -143,18 +143,18 @@ module.exports = yeoman.Base.extend(Object.merge(Base, {
 						this
 					);
 
-					this.fs.copyTpl(
-						this.templatePath('ss-declaration.ejs'),
-						this.destinationPath(`${this.blockName}.ss.ts`),
-						this
-					);
+					if (this.blockName.charAt(0) === 'p' && this.parent) {
+						this.fs.copyTpl(
+							this.templatePath('p-template.ejs'),
+							this.destinationPath(`${this.blockName}.ess`),
+							this
+						);
+					}
 				}
 
 				this.fs.copyTpl(
 					this.templatePath('template.ejs'),
-					this.destinationPath(
-						this.blockName + (this.blockName.charAt(0) === 'p' ? '.ess' : '.ss')
-					),
+					this.destinationPath(`${this.blockName}.ss`),
 					this
 				);
 
