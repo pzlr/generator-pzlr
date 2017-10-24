@@ -3,13 +3,13 @@
 
 <% } -%>
 <% if (parent) { -%>
-import <%- parent.camelize(false) %> from '../<%- parent %>/<%- parent %>';
+import <%- parent.camelize(false) %> from 'blocks/<%- parent %>/<%- parent %>';
 <% } -%>
 <% if (/^[pb]/.test(blockName)) { -%>
-import { component } from '../../core/view';
+import { component } from 'core/view';
 <% } -%>
 <% if (/^[pb]/.test(blockName)) { -%>
-import templates = require('./<%- blockName %>.ss');
+import templates = require('blocks/<%- blockName %>/<%- blockName %>.ss');
 <% } -%>
 <% if (/^[pb]/.test(blockName) || parent) { -%>
 

@@ -5,7 +5,7 @@
 <% } -%>
 
 <% if (parent) { -%>
-- include '../<%- parent %>/' as placeholder
+- include 'blocks/<%- parent %>/'|b as placeholder
 <% if (/^p/.test(blockName) && projectType === 'ts') { -%>
 
 - placeholder static(params)<% if (parent) { %> extends ['<%- parent %>'].static<% } %>

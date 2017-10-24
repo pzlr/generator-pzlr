@@ -4,6 +4,6 @@
 <%- disclaimer -%>
 <% } -%>
 
-- include '../<%- parent %>/' as placeholder
+- include 'blocks/<%- parent %>/'|b as placeholder
 
 - template index(params) extends ['<%- parent %>'].static
