@@ -3,7 +3,7 @@
 
 <% } -%>
 <% if (blockName.charAt(0) !== 'g') { -%>
-@import "<%- blockName %>.interface.styl"
+@import "blocks/<%- blockName %>/<%- blockName %>.interface.styl"
 
 .<%- blockName %>
 	extends($<%- blockName.camelize(false) %>)
